@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{2BFA883D-17AA-4D01-AFD7-3A6AF495B672}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="SQLCollection.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\samples\simple_sample\SimpleSample.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="SQLCollection">
+        <MSBuild Projects="SQLCollection.dproj"/>
+    </Target>
+    <Target Name="SQLCollection:Clean">
+        <MSBuild Projects="SQLCollection.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SQLCollection:Make">
+        <MSBuild Projects="SQLCollection.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="SimpleSample">
+        <MSBuild Projects="..\samples\simple_sample\SimpleSample.dproj"/>
+    </Target>
+    <Target Name="SimpleSample:Clean">
+        <MSBuild Projects="..\samples\simple_sample\SimpleSample.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SimpleSample:Make">
+        <MSBuild Projects="..\samples\simple_sample\SimpleSample.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="SQLCollection;SimpleSample"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="SQLCollection:Clean;SimpleSample:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="SQLCollection:Make;SimpleSample:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
