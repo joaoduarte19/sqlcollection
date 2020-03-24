@@ -28,6 +28,7 @@ interface
 
 uses
   System.Classes,
+  System.SysUtils,
   SQLCollection.Base;
 
 type
@@ -44,6 +45,10 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+
+    function FindSQL(const ASQLItemName, ASQLCategoryName: string): string;
+    function FindSQLItem(const ASQLItemName, ASQLCategoryName: string): TSQLItem;
+    function FindSQLCategory(const ASQLCategoryName: string): TSQLCategory;
   published
     property Items: TSQLCategories read FItems write SetItems;
   end;
@@ -51,11 +56,11 @@ type
   TSQLCategories = class(TSortableCollection)
   private
     function GetSQLCategory(Index: Integer): TSQLCategory;
-    function GetSQLCategoryByName(AName: string): TSQLCategory;
+    function GetSQLCategoryByName(ASQLCategoryName: string): TSQLCategory;
   public
-    function Add(const AName: string): TSQLCategory;
+    function Add(const ASQLCategoryName: string): TSQLCategory;
     property SQLCategory[Index: Integer]: TSQLCategory read GetSQLCategory;
-    property SQLCategoryByName[AName: string]: TSQLCategory read GetSQLCategoryByName; default;
+    property SQLCategoryByName[ASQLCategoryName: string]: TSQLCategory read GetSQLCategoryByName; default;
   end;
 
   TSQLCategory = class(TCollectionItem)
@@ -76,11 +81,11 @@ type
   TSQLItems = class(TSortableCollection)
   private
     function GetSQLItem(Index: Integer): TSQLItem;
-    function GetSQLItemByName(AName: string): TSQLItem;
+    function GetSQLItemByName(ASQLItemName: string): TSQLItem;
   public
-    function Add(const AName: string): TSQLItem; overload;
+    function Add(const ASQLItemName: string): TSQLItem; overload;
     property SQLItem[Index: Integer]: TSQLItem read GetSQLItem;
-    property SQLItemByName[AName: string]: TSQLItem read GetSQLItemByName; default;
+    property SQLItemByName[ASQLItemName: string]: TSQLItem read GetSQLItemByName; default;
   end;
 
   TSQLItem = class(TCollectionItem)
@@ -100,12 +105,11 @@ type
     property SQL: TStrings read FSQL write SetSQL;
   end;
 
+  ESQLCollectionException = class(Exception);
+
 procedure Register;
 
 implementation
-
-uses
-  System.SysUtils;
 
 procedure Register;
 begin
@@ -126,6 +130,34 @@ begin
   inherited Destroy;
 end;
 
+function TSQLCollection.FindSQL(const ASQLItemName, ASQLCategoryName: string): string;
+var
+  LSQLItem: TSQLItem;
+begin
+  LSQLItem := FindSQLItem(ASQLItemName, ASQLCategoryName);
+
+  if not Assigned(LSQLItem) then
+    raise ESQLCollectionException.CreateFmt('SQLItem "%s" of SQLCategory "%s" not found.',
+      [ASQLItemName, ASQLCategoryName]);
+
+  Result := LSQLItem.SQL.Text;
+end;
+
+function TSQLCollection.FindSQLCategory(const ASQLCategoryName: string): TSQLCategory;
+begin
+  Result := Items[ASQLCategoryName];
+end;
+
+function TSQLCollection.FindSQLItem(const ASQLItemName, ASQLCategoryName: string): TSQLItem;
+var
+  LSQLCategory: TSQLCategory;
+begin
+  Result := nil;
+  LSQLCategory := FindSQLCategory(ASQLCategoryName);
+  if Assigned(LSQLCategory) then
+    Result := LSQLCategory.SQLItems[ASQLItemName];
+end;
+
 procedure TSQLCollection.SetItems(const Value: TSQLCategories);
 begin
   FItems.Assign(Value);
@@ -133,10 +165,10 @@ end;
 
 { TSQLCategories }
 
-function TSQLCategories.Add(const AName: string): TSQLCategory;
+function TSQLCategories.Add(const ASQLCategoryName: string): TSQLCategory;
 begin
   Result := TSQLCategory.Create(Self);
-  Result.Name := AName;
+  Result.Name := ASQLCategoryName;
   Self.Sort;
 end;
 
@@ -145,12 +177,12 @@ begin
   Result := Items[Index] as TSQLCategory;
 end;
 
-function TSQLCategories.GetSQLCategoryByName(AName: string): TSQLCategory;
+function TSQLCategories.GetSQLCategoryByName(ASQLCategoryName: string): TSQLCategory;
 var
   LIndex: Integer;
 begin
   Result := nil;
-  if BinarySearch(AName, LIndex) then
+  if BinarySearch(ASQLCategoryName, LIndex) then
   begin
     Result := GetSQLCategory(LIndex);
   end;
@@ -185,10 +217,10 @@ end;
 
 { TSQLItems }
 
-function TSQLItems.Add(const AName: string): TSQLItem;
+function TSQLItems.Add(const ASQLItemName: string): TSQLItem;
 begin
   Result := TSQLItem.Create(Self);
-  Result.Name := AName;
+  Result.Name := ASQLItemName;
   Self.Sort;
 end;
 
@@ -197,12 +229,12 @@ begin
   Result := Items[Index] as TSQLItem;
 end;
 
-function TSQLItems.GetSQLItemByName(AName: string): TSQLItem;
+function TSQLItems.GetSQLItemByName(ASQLItemName: string): TSQLItem;
 var
   LIndex: Integer;
 begin
   Result := nil;
-  if BinarySearch(AName, LIndex) then
+  if BinarySearch(ASQLItemName, LIndex) then
   begin
     Result := GetSQLItem(LIndex);
   end;
