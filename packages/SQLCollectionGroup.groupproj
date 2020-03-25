@@ -6,6 +6,9 @@
         <Projects Include="SQLCollection.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="SQLCollection.Design.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="..\samples\simple_sample\SimpleSample.dproj">
             <Dependencies/>
         </Projects>
@@ -29,6 +32,15 @@
     <Target Name="SQLCollection:Make">
         <MSBuild Projects="SQLCollection.dproj" Targets="Make"/>
     </Target>
+    <Target Name="SQLCollection_Design">
+        <MSBuild Projects="SQLCollection.Design.dproj"/>
+    </Target>
+    <Target Name="SQLCollection_Design:Clean">
+        <MSBuild Projects="SQLCollection.Design.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SQLCollection_Design:Make">
+        <MSBuild Projects="SQLCollection.Design.dproj" Targets="Make"/>
+    </Target>
     <Target Name="SimpleSample">
         <MSBuild Projects="..\samples\simple_sample\SimpleSample.dproj"/>
     </Target>
@@ -48,13 +60,13 @@
         <MSBuild Projects="..\tests\SQLCollectionTests.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="SQLCollection;SimpleSample;SQLCollectionTests"/>
+        <CallTarget Targets="SQLCollection;SQLCollection_Design;SimpleSample;SQLCollectionTests"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SQLCollection:Clean;SimpleSample:Clean;SQLCollectionTests:Clean"/>
+        <CallTarget Targets="SQLCollection:Clean;SQLCollection_Design:Clean;SimpleSample:Clean;SQLCollectionTests:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SQLCollection:Make;SimpleSample:Make;SQLCollectionTests:Make"/>
+        <CallTarget Targets="SQLCollection:Make;SQLCollection_Design:Make;SimpleSample:Make;SQLCollectionTests:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

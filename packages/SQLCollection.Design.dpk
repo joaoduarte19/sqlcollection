@@ -1,4 +1,4 @@
-package SQLCollection;
+package SQLCollection.Design;
 
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
@@ -25,14 +25,12 @@ package SQLCollection;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'SQLCollection'}
+{$DESCRIPTION 'SQLCollection Design'}
+{$DESIGNONLY}
 {$IMPLICITBUILD ON}
 
 requires
-  rtl;
-
-contains
-  SQLCollection.Base in '..\sources\SQLCollection.Base.pas',
-  SQLCollection.Core in '..\sources\SQLCollection.Core.pas';
+  rtl,
+  designide;
 
 end.
