@@ -9,6 +9,9 @@
         <Projects Include="..\samples\simple_sample\SimpleSample.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\tests\SQLCollectionTests.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="SimpleSample:Make">
         <MSBuild Projects="..\samples\simple_sample\SimpleSample.dproj" Targets="Make"/>
     </Target>
+    <Target Name="SQLCollectionTests">
+        <MSBuild Projects="..\tests\SQLCollectionTests.dproj"/>
+    </Target>
+    <Target Name="SQLCollectionTests:Clean">
+        <MSBuild Projects="..\tests\SQLCollectionTests.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SQLCollectionTests:Make">
+        <MSBuild Projects="..\tests\SQLCollectionTests.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="SQLCollection;SimpleSample"/>
+        <CallTarget Targets="SQLCollection;SimpleSample;SQLCollectionTests"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SQLCollection:Clean;SimpleSample:Clean"/>
+        <CallTarget Targets="SQLCollection:Clean;SimpleSample:Clean;SQLCollectionTests:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SQLCollection:Make;SimpleSample:Make"/>
+        <CallTarget Targets="SQLCollection:Make;SimpleSample:Make;SQLCollectionTests:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

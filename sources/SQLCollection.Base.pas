@@ -124,7 +124,7 @@ var
 begin
   if not Assigned(FCollectionItems) then
   begin
-    LObjType := FRttiContext.GetType(Self);
+    LObjType := FRttiContext.GetType(Self.ClassType);
     while Assigned(LObjType.BaseType) do
     begin
       LObjType := LObjType.BaseType;
