@@ -175,6 +175,9 @@ end;
 
 function TSQLCategories.Add(const ASQLCategoryName: string): TSQLCategory;
 begin
+  if Self.Contains(ASQLCategoryName) then
+    raise ESQLCollectionException.CreateFmt('There is already an category with the name %s', [ASQLCategoryName]);
+
   Result := TSQLCategory.Create(Self);
   Result.Name := ASQLCategoryName;
   Self.Sort;
@@ -227,6 +230,10 @@ end;
 
 function TSQLItems.Add(const ASQLItemName: string): TSQLItem;
 begin
+  if Self.Contains(ASQLItemName) then
+    raise ESQLCollectionException.CreateFmt('There is already an item with the name %s in the %s category',
+      [ASQLItemName, (Self.Owner as TSQLCategory).Name]);
+
   Result := TSQLItem.Create(Self);
   Result.Name := ASQLItemName;
   Self.Sort;

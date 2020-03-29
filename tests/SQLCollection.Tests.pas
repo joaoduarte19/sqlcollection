@@ -53,6 +53,14 @@ begin
   FSQLCollection.Items.Add('Category 3');
   FSQLCollection.Items.Add('Category 2');
 
+  Assert.WillRaise(
+    procedure
+    begin
+      FSQLCollection.Items.Add('Category 2');
+    end,
+    ESQLCollectionException
+    );
+
   Assert.AreEqual(3, FSQLCollection.Items.Count);
   Assert.AreEqual('Category 1', FSQLCollection.Items.SQLCategory[0].Name);
   Assert.AreEqual('Category 2', FSQLCollection.Items.SQLCategory[1].Name);
@@ -62,6 +70,7 @@ begin
   Assert.IsNotNull(FSQLCollection.Items['Category 2']);
   Assert.IsNotNull(FSQLCollection.Items['Category 3']);
   Assert.IsNull(FSQLCollection.Items['Category 4']);
+
 end;
 
 procedure TSQLCollectionTest.TestSQLCollectionMethods;
@@ -102,6 +111,15 @@ begin
   LCategory.SQLItems.Add('SQLItem6');
   LCategory.SQLItems.Add('SQLItem8');
   LCategory.SQLItems.Add('SQLItem7');
+
+  Assert.WillRaise(
+    procedure
+    begin
+      LCategory.SQLItems.Add('SQLItem7');
+    end,
+    ESQLCollectionException
+    );
+
 
   Assert.AreEqual(9, LCategory.SQLItems.Count);
   Assert.AreEqual('SQLItem1', LCategory.SQLItems.SQLItem[0].Name);

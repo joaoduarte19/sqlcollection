@@ -51,6 +51,8 @@ type
     function BinarySearch(const AItem: string; out AIndex: Integer;
       const AComparer: IComparer<TCollectionItem> = nil): Boolean; overload;
 
+    function Contains(const AItemName: string; AComparer: IComparer<TCollectionItem> = nil): Boolean;
+
     property CollectionItems: TList<TCollectionItem> read GetCollectionItems;
   end;
 
@@ -96,6 +98,13 @@ begin
     LComparer := FDefaultComparer;
 
   Result := GetCollectionItems.BinarySearch(AItem, AIndex, LComparer);
+end;
+
+function TSortableCollection.Contains(const AItemName: string; AComparer: IComparer<TCollectionItem>): Boolean;
+var
+  LIndex: Integer;
+begin
+  Result := BinarySearch(AItemName, LIndex, AComparer);
 end;
 
 constructor TSortableCollection.Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
