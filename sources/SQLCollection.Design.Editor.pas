@@ -47,7 +47,7 @@ uses
   Vcl.ToolWin,
   System.Generics.Collections,
   System.Actions,
-  Vcl.ActnList;
+  Vcl.ActnList, Vcl.Buttons, SQLCollection.Design.SQLEditor, Vcl.Menus;
 
 type
   TSQLCollectionEditor = class(TDesignWindow)
@@ -55,15 +55,38 @@ type
     statbar: TStatusBar;
     pnHeader: TPanel;
     pnFooter: TPanel;
-    lstCategories: TListBox;
-    splCatItems: TSplitter;
-    lstItems: TListBox;
     actlst1: TActionList;
+    cbxSearch: TComboBox;
+    lbSearch: TLabel;
+    btnSearch: TSpeedButton;
+    actAddCategory: TAction;
+    actRemoveCategory: TAction;
+    actAddSQLItem: TAction;
+    actRemoveSQLItem: TAction;
+    actSearchItems: TAction;
+    pnItems: TPanel;
+    splCatItems: TSplitter;
+    lstCategories: TListBox;
+    lstItems: TListBox;
+    splFooter: TSplitter;
+    tvItems: TTreeView;
+    pn1: TPanel;
+    btnCloseSearchResults: TSpeedButton;
+    pmSQLItems: TPopupMenu;
+    mniAddSQLItem: TMenuItem;
     procedure lstCategoriesClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actSearchItemsExecute(Sender: TObject);
+    procedure btnCloseSearchResultsClick(Sender: TObject);
+    procedure lstItemsDblClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure actAddCategoryExecute(Sender: TObject);
+    procedure actAddSQLItemExecute(Sender: TObject);
   private
     FSQLCollection: TSQLCollection;
+    FSQLEditor: TSQLEditor;
     function GetConfigFileName: string;
     procedure FillCategories;
   public
@@ -81,12 +104,112 @@ implementation
 
 uses
   System.Win.Registry,
-  System.IOUtils;
+  System.IOUtils,
+  System.RegularExpressions;
 
 {$R *.dfm}
 
 
 { TSQLCollectionEditor }
+
+procedure TSQLCollectionEditor.actAddCategoryExecute(Sender: TObject);
+var
+  LCategory: string;
+begin
+  if not InputQuery('Insert Category', 'Enter category: ', LCategory) then
+    Exit;
+
+
+  FSQLCollection.Items.Add(LCategory);
+  FillCategories;
+
+  lstCategories.ItemIndex := lstCategories.Items.IndexOf(LCategory);
+  if lstCategories.ItemIndex >= 0 then
+  begin
+    lstCategories.Selected[lstCategories.ItemIndex] := True;;
+    lstCategoriesClick(lstCategories);
+  end;
+end;
+
+procedure TSQLCollectionEditor.actAddSQLItemExecute(Sender: TObject);
+var
+  LSQLCategory: TSQLCategory;
+  I: Integer;
+  LStr: string;
+begin
+  if lstCategories.ItemIndex >= 0 then
+    LSQLCategory := lstCategories.Items.Objects[lstCategories.ItemIndex] as TSQLCategory
+  else
+  begin
+    if not InputQuery('Insert SQLCategory', 'Enter SQLCategory name: ', LStr) then
+      Exit;
+
+    LSQLCategory := FSQLCollection.Items.Add(LStr);
+    FillCategories;
+  end;
+
+  I := 0;
+  repeat
+    Inc(I);
+    LStr := Format('SQL%d', [I]);
+  until (LSQLCategory.SQLItems[LStr] = nil);
+
+  if not InputQuery('Insert SQLItem', 'Enter SQLItem name', LStr) then
+    Exit;
+
+  if LSQLCategory.SQLItems[LStr] = nil then
+  begin
+    LSQLCategory.SQLItems.Add(LStr);
+    FillCategories;
+  end
+  else
+    ShowMessage('An SQLItem with this name already exists.');
+end;
+
+procedure TSQLCollectionEditor.actSearchItemsExecute(Sender: TObject);
+var
+  LSearchText: string;
+  I: Integer;
+  LMatches: TMatchCollection;
+  LSQLItemName: string;
+  LSQLCategoryName: string;
+  LSQLItem: TSQLItem;
+begin
+  if cbxSearch.Text = '' then
+    Exit;
+
+  LSearchText := cbxSearch.Text;
+
+  I := cbxSearch.Items.IndexOf(LSearchText);
+  if I < 0 then
+    cbxSearch.Items.Insert(0, LSearchText)
+  else
+    cbxSearch.Items.Move(I, 0);
+
+  LMatches := TRegex.Matches(LSearchText, #39'([^'#39']*)'#39);
+  if LMatches.Count = 2 then
+  begin
+    LSQLItemName := LMatches[0].Groups[0].Value;
+    LSQLCategoryName := LMatches[1].Groups[0].Value;
+
+    LSQLItem := FSQLCollection.FindSQLItem(LSQLItemName, LSQLCategoryName);
+
+    if Assigned(LSQLItem) then
+    begin
+      lstCategories.ItemIndex := lstCategories.Items.IndexOf(LSQLCategoryName);
+      lstCategoriesClick(lstCategories);
+      lstItems.ItemIndex := lstItems.Items.IndexOfObject(LSQLItem);
+      lstItems.Selected[lstItems.ItemIndex] := true;
+      Exit;
+    end;
+  end;
+
+end;
+
+procedure TSQLCollectionEditor.btnCloseSearchResultsClick(Sender: TObject);
+begin
+  pnFooter.Height := 1;
+end;
 
 procedure TSQLCollectionEditor.DesignerClosed(const ADesigner: IDesigner; AGoingDormant: Boolean);
 begin
@@ -143,9 +266,22 @@ begin
   try
     SaveFormPos(LReg, 'EditorPos', Self);
     LReg.WriteInteger('EditorConfigs', 'CategoriesWidth', lstCategories.Width);
+    LReg.WriteString('EditorConfigs', 'SearchText', cbxSearch.Items.Text);
   finally
     LReg.Free;
   end;
+end;
+
+procedure TSQLCollectionEditor.FormCreate(Sender: TObject);
+begin
+  if Assigned(GSQLCollectionEditorList) then
+    GSQLCollectionEditorList.Add(Self);
+end;
+
+procedure TSQLCollectionEditor.FormDestroy(Sender: TObject);
+begin
+  if Assigned(GSQLCollectionEditorList) then
+    GSQLCollectionEditorList.Remove(Self);
 end;
 
 procedure TSQLCollectionEditor.FormShow(Sender: TObject);
@@ -156,6 +292,7 @@ begin
   try
     LoadFormPos(LReg, 'EditorPos', Self);
     lstCategories.Width := LReg.ReadInteger('EditorConfigs', 'CategoriesWidth', lstCategories.Width);
+    cbxSearch.Items.Text := LReg.ReadString('EditorConfigs', 'SearchText', '');
   finally
     LReg.Free;
   end;
@@ -226,6 +363,27 @@ begin
     LComponentList.Add(FSQLCollection);
   Designer.SetSelections(LComponentList);
   {$ENDIF}
+end;
+
+procedure TSQLCollectionEditor.lstItemsDblClick(Sender: TObject);
+var
+  I: Integer;
+begin
+  if lstItems.ItemIndex = - 1 then
+    Exit;
+
+  { SQLCollection.Design.SQLEditor }
+  if not Assigned(FSQLEditor) then
+    FSQLEditor := TSQLEditor.Create(Self);
+
+  for I := 0 to Pred(lstItems.Items.Count) do
+    if lstItems.Selected[I] then
+      FSQLEditor.OpenSQLEditor(TSQLItem(lstItems.Items.Objects[I]));
+
+  if FSQLEditor.WindowState <> wsNormal then
+    FSQLEditor.WindowState := wsNormal;
+
+  FSQLEditor.Show;
 end;
 
 procedure TSQLCollectionEditor.SelectItem(const ASQLItem: TSQLItem; const AFocusCtrl: Boolean);

@@ -100,9 +100,14 @@
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="designide.dcp"/>
         <DCCReference Include="SQLCollection.dcp"/>
+        <DCCReference Include="SynEdit_R.dcp"/>
         <DCCReference Include="..\sources\SQLCollection.Design.Register.pas"/>
         <DCCReference Include="..\sources\SQLCollection.Design.Editor.pas">
             <Form>SQLCollectionEditor</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\sources\SQLCollection.Design.SQLEditor.pas">
+            <Form>SQLEditor</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
