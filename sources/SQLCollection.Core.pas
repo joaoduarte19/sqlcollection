@@ -92,6 +92,7 @@ type
   private
     FName: string;
     FSQL: TStrings;
+    FLastModifiedQuery: TDateTime;
     procedure SetSQL(const Value: TStrings);
     function GetCategory: string;
   protected
@@ -99,10 +100,12 @@ type
   public
     constructor Create(Collection: TCollection); override;
     destructor Destroy; override;
+    procedure AfterConstruction; override;
   published
     property Category: string read GetCategory;
     property Name: string read FName write FName;
     property SQL: TStrings read FSQL write SetSQL;
+    property LastModifiedQuery: TDateTime read FLastModifiedQuery;
   end;
 
   ESQLCollectionException = class(Exception);
@@ -242,6 +245,12 @@ end;
 
 { TSQLItem }
 
+procedure TSQLItem.AfterConstruction;
+begin
+  inherited;
+  FLastModifiedQuery := Now;
+end;
+
 constructor TSQLItem.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
@@ -270,6 +279,7 @@ end;
 procedure TSQLItem.SetSQL(const Value: TStrings);
 begin
   FSQL.Assign(Value);
+  FLastModifiedQuery := Now;
 end;
 
 end.
