@@ -90,11 +90,13 @@ type
 
   TSQLItem = class(TCollectionItem)
   private
+    FSQLHash: string;
     FName: string;
     FSQL: TStrings;
-    FLastModifiedQuery: TDateTime;
+    FLastModifiedDate: TDateTime;
     procedure SetSQL(const Value: TStrings);
     function GetCategory: string;
+    procedure OnSQLChanged(Sender: TObject);
   protected
     function GetDisplayName: string; override;
   public
@@ -105,7 +107,7 @@ type
     property Category: string read GetCategory;
     property Name: string read FName write FName;
     property SQL: TStrings read FSQL write SetSQL;
-    property LastModifiedQuery: TDateTime read FLastModifiedQuery;
+    property LastModifiedDate: TDateTime read FLastModifiedDate;
   end;
 
   ESQLCollectionException = class(Exception);
@@ -113,6 +115,9 @@ type
 procedure Register;
 
 implementation
+
+uses
+  System.Hash;
 
 procedure Register;
 begin
@@ -248,13 +253,15 @@ end;
 procedure TSQLItem.AfterConstruction;
 begin
   inherited;
-  FLastModifiedQuery := Now;
+  FLastModifiedDate := Now;
 end;
 
 constructor TSQLItem.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
   FSQL := TStringList.Create;
+
+  TStringList(FSQL).OnChange := OnSQLChanged;
 end;
 
 destructor TSQLItem.Destroy;
@@ -276,10 +283,21 @@ begin
     Result := inherited GetDisplayName;
 end;
 
+procedure TSQLItem.OnSQLChanged(Sender: TObject);
+var
+  LSQLHash: string;
+begin
+  LSQLHash := THashMD5.GetHashString(FSQL.Text);
+  if not FSQLHash.Equals(LSQLHash) then
+  begin
+    FLastModifiedDate := Now;
+    FSQLHash := LSQLHash;
+  end;
+end;
+
 procedure TSQLItem.SetSQL(const Value: TStrings);
 begin
   FSQL.Assign(Value);
-  FLastModifiedQuery := Now;
 end;
 
 end.

@@ -44,6 +44,11 @@ object FMain: TFMain
           end
           item
             Name = 'SQL0'
+          end
+          item
+            Name = 'SQL6'
+            SQL.Strings = (
+              'SELECT NOW()')
           end>
       end
       item
@@ -63,6 +68,14 @@ object FMain: TFMain
       end
       item
         Name = 'Category0'
+        SQLItems = <>
+      end
+      item
+        Name = 'Category6'
+        SQLItems = <>
+      end
+      item
+        Name = 'Category7'
         SQLItems = <>
       end>
     Left = 240
