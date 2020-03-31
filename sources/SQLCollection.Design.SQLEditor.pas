@@ -169,7 +169,7 @@ type
     procedure OpenSQLEditor(ASQLItem: TSQLItem);
   end;
 
-/// <summary>
+  /// <summary>
   /// For access to TSynEdit protected methods
   /// </summary>
   THackSynEdit = class(TCustomSynEdit);

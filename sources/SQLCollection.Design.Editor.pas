@@ -203,7 +203,6 @@ begin
       Exit;
     end;
   end;
-
 end;
 
 procedure TSQLCollectionEditor.btnCloseSearchResultsClick(Sender: TObject);
