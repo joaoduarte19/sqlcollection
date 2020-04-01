@@ -229,6 +229,8 @@ object SQLCollectionEditor: TSQLCollectionEditor
       Sorted = True
       TabOrder = 0
       OnClick = lstCategoriesClick
+      OnDragDrop = lstCategoriesDragDrop
+      OnDragOver = lstCategoriesDragOver
     end
     object lstItems: TListBox
       Left = 221
@@ -236,6 +238,7 @@ object SQLCollectionEditor: TSQLCollectionEditor
       Width = 564
       Height = 401
       Align = alClient
+      DragMode = dmAutomatic
       ItemHeight = 15
       PopupMenu = pmSQLItems
       TabOrder = 1

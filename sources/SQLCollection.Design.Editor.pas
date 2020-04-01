@@ -47,7 +47,10 @@ uses
   Vcl.ToolWin,
   System.Generics.Collections,
   System.Actions,
-  Vcl.ActnList, Vcl.Buttons, SQLCollection.Design.SQLEditor, Vcl.Menus;
+  Vcl.ActnList,
+  Vcl.Buttons,
+  SQLCollection.Design.SQLEditor,
+  Vcl.Menus;
 
 type
   TSQLCollectionEditor = class(TDesignWindow)
@@ -84,6 +87,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure actAddCategoryExecute(Sender: TObject);
     procedure actAddSQLItemExecute(Sender: TObject);
+    procedure lstCategoriesDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure lstCategoriesDragOver(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
   private
     FSQLCollection: TSQLCollection;
     FSQLEditor: TSQLEditor;
@@ -109,7 +114,6 @@ uses
 
 {$R *.dfm}
 
-
 { TSQLCollectionEditor }
 
 procedure TSQLCollectionEditor.actAddCategoryExecute(Sender: TObject);
@@ -118,7 +122,6 @@ var
 begin
   if not InputQuery('Insert Category', 'Enter category: ', LCategory) then
     Exit;
-
 
   FSQLCollection.Items.Add(LCategory);
   FillCategories;
@@ -328,16 +331,12 @@ begin
   if lstItems.Items.Count > 0 then
     LSelectedObject := lstItems.Items.Objects[lstItems.ItemIndex];
 
-  {$IFNDEF TestMode}
   LComponentList := TDesignerSelections.Create;
-  {$ENDIF}
   LSQLCategory := lstCategories.Items.Objects[lstCategories.ItemIndex] as TSQLCategory;
 
   if LSQLCategory <> nil then
   begin
-    {$IFNDEF TestMode}
     LComponentList.Add(LSQLCategory);
-    {$ENDIF}
     lstItems.Clear;
     lstItems.Items.BeginUpdate;
     try
@@ -357,11 +356,57 @@ begin
     end;
   end;
 
-  {$IFNDEF TestMode}
   if LComponentList.Count = 0 then
     LComponentList.Add(FSQLCollection);
-  Designer.SetSelections(LComponentList);
-  {$ENDIF}
+  if Assigned(Designer) then
+    Designer.SetSelections(LComponentList);
+end;
+
+procedure TSQLCollectionEditor.lstCategoriesDragDrop(Sender, Source: TObject; X, Y: Integer);
+var
+  I: Integer;
+  LIndex: Integer;
+  LSQLCategory: TSQLCategory;
+  LAccept: Boolean;
+begin
+  LIndex := lstCategories.ItemAtPos(Point(X, Y), True);
+
+  LAccept := (Source = lstItems) and
+    (LIndex >= 0) and
+    (LIndex < lstCategories.Items.Count) and
+    (LIndex <> lstCategories.ItemIndex);
+
+  if not LAccept then
+    Exit;
+
+  LSQLCategory := lstCategories.Items.Objects[LIndex] as TSQLCategory;
+
+
+  for I := 0 to lstItems.Items.Count - 1 do
+  begin
+    if lstItems.Selected[I] then
+    begin
+      (lstItems.Items.Objects[I] as TSQLItem).Collection := LSQLCategory.SQLItems;
+    end;
+  end;
+
+  FillCategories;
+
+  lstCategories.ItemIndex := LIndex;
+  lstCategoriesClick(lstCategories);
+end;
+
+procedure TSQLCollectionEditor.lstCategoriesDragOver(Sender, Source: TObject; X, Y: Integer; State: TDragState;
+  var Accept: Boolean);
+var
+  LIndex: Integer;
+begin
+  LIndex := lstCategories.ItemAtPos(Point(X, Y), true);
+
+  Accept := (Source = lstItems) and
+    (LIndex >= 0) and
+    (LIndex < lstCategories.Items.Count) and
+    (LIndex <> lstCategories.ItemIndex);
 end;
 
 procedure TSQLCollectionEditor.lstItemsDblClick(Sender: TObject);

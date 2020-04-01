@@ -58,6 +58,9 @@
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
         <SanitizedProjectName>SimpleSample</SanitizedProjectName>
+        <DCC_AdditionalSwitches>-LUDesignIDE</DCC_AdditionalSwitches>
+        <VerInfo_Locale>1046</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;dxFlowChartRS26;dxPSdxMapControlLnkRS26;DBXDb2Driver;RestDatawareCORE;vclactnband;dxBarRS26;vclFireDAC;JRRestDWComponents;dxFireDACEMFRS26;tethering;dxSpreadSheetInplaceRichEditRS26;FireDACADSDriver;dxRichEditCoreRS26;dxPSdxSpreadSheetLnkRS26;FireDACMSSQLDriver;vcltouch;vcldb;svn;dxPSTeeChartRS26;JRTools;dxGDIPlusRS26;dxPSdxFCLnkRS26;dxCloudServiceLibraryRS26;dxPSLnksRS26;FireDACDBXDriver;cxGridRS26;dxPsPrVwAdvRS26;dxPDFViewerRS26;PascalScript_Core_D26;RESTDWDriverFD;vclx;RestCoreClient;dxPScxTLLnkRS26;PermissoesCollectionPkg;RESTBackendComponents;RestClientDelphiMVC;VCLRESTComponents;remotedb;vclie;bindengine;CloudService;dxmdsRS26;rbRCL1926;FireDACMySQLDriver;dxdborRS26;DataSnapClient;dxFireDACServerModeRS26;bindcompdbx;GR32_D;ACBr_TCP;DBXSybaseASEDriver;IndyIPServer;cxPivotGridRS26;tmsbcl;IndySystem;sparkle;cxTreeListdxBarPopupMenuRS26;dsnapcon;cxTreeListRS26;dxPScxPivotGridLnkRS26;VirtualTreesR;cxSchedulerRibbonStyleEventEditorRS26;dxPSCoreRS26;rbIDE1926;FireDACMSAccDriver;fmxFireDAC;FireDACInfxDriver;vclimg;dxSpreadSheetRS26;dxBarExtItemsRS26;dxPSdxGaugeControlLnkRS26;emshosting;SQLCollection;DBXOdbcDriver;FireDACTDataDriver;FMXTee;dxdbtrRS26;dxRichEditControlCoreRS26;soaprtl;DbxCommonDriver;dxFlowChartAdvancedCustomizeFormRS26;rbRTL1926;ACBr_NFSeDanfseRL;dxDockingRS26;xmlrtl;soapmidas;DataSnapNativeClient;fmxobj;cxLibraryRS26;GR32_R;rtl;emsserverresource;DbxClientDriver;DBXSybaseASADriver;dxPScxSchedulerLnkRS26;dxSpreadSheetConditionalFormattingDialogsRS26;appanalytics;dxRibbonCustomizationFormRS26;cxSchedulerGridRS26;LockBox3DR;IndyIPClient;bindcompvcl;dxFlowChartLayoutsRS26;dclRBE1926;ORMBrLibrary;TeeUI;dxADOEMFRS26;VclSmp;FireDACODBCDriver;rbADO1926;dxRibbonRS26;DataSnapIndy10ServerTransport;dxPScxCommonRS26;aurelius;dxRichEditDocumentModelRS26;DataSnapProviderClient;FireDACMongoDBDriver;dxFlowChartDesignerRS26;dxPScxGridLnkRS26;rbUSERDesign1926;ACBr_NFSe;dxSpreadSheetCoreRS26;DataSnapServerMidas;RESTComponents;DBXInterBaseDriver;dxPScxExtCommonRS26;rbCIDE1926;rbDAD1926;rbDB1926;emsclientfiredac;DataSnapFireDAC;svnui;rbRest1926;DBXMSSQLDriver;dxRichEditControlRS26;DatasnapConnectorsFreePascal;dxGaugeControlRS26;dxorgcRS26;dxPScxVGridLnkRS26;ACBrDFeReportRL;bindcompfmx;DBXOracleDriver;inetdb;JRFireDACComponents;ACBr_Diversos;dxBarDBNavRS26;dxDBXServerModeRS26;FmxTeeUI;emsedge;FireDACIBDriver;fmx;fmxdae;dxServerModeRS26;dxWizardControlRS26;rbUSER1926;ZipMasterR;dxTabbedMDIRS26;dxEMFRS26;dbexpress;IndyCore;dxComnRS26;rbRIDE1926;xdata;rbDIDE1926;dsnap;DataSnapCommon;emsclient;FireDACCommon;ACBr_PCNComum;DataSnapConnectors;cxSchedulerTreeBrowserRS26;dxADOServerModeRS26;soapserver;cxPivotGridOLAPRS26;cxVerticalGridRS26;dxtrmdRS26;FireDACOracleDriver;DBXMySQLDriver;cxSchedulerRS26;cxSchedulerWebServiceStorageRS26;dxPSdxLCLnkRS26;DBXFirebirdDriver;Catracas;rbTCUI1926;FireDACCommonODBC;FireDACCommonDriver;dxMapControlRS26;inet;dxSpellCheckerRS26;IndyIPCommon;dclRBDBE1926;dxSpreadSheetCoreConditionalFormattingDialogsRS26;vcl;dxPSdxDBOCLnkRS26;rbRAP1926;FireDACDb2Driver;dxSpreadSheetReportDesignerRS26;ACBr_Integrador;dxPScxPCProdRS26;dxNavBarRS26;dxCoreRS26;cxExportRS26;TeeDB;FireDAC;dxHttpIndyRequestRS26;dxPSPrVwRibbonRS26;ACBr_Comum;rbTC1926;FireDACSqliteDriver;FireDACPgDriver;dxPSRichEditControlLnkRS26;FireDACASADriver;cxPivotGridChartRS26;rbBDE1926;dxPSDBTeeChartRS26;Tee;DataSnapServer;dxPSdxDBTVLnkRS26;vclwinx;FireDACDSDriver;ACBr_OpenSSL;ActiveX;dxTileControlRS26;dxSkinsCoreRS26;CustomIPTransport;vcldsnap;dclRBADO1926;ConfiguracoesGeraisCollectionPkg;bindcomp;dxPSdxOCLnkRS26;DBXInformixDriver;SynEdit_R;dclRBFireDAC1926;dbxcds;adortl;dxSpreadSheetCoreDialogsRS26;dxBarExtDBItemsRS26;dsnapxml;JRDatabaseTools;dbrtl;inetdbxpress;IndyProtocols;dxPSdxPDFViewerLnkRS26;dxRichEditInplaceRS26;rbDBE1926;rbFireDAC1926;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -83,6 +86,8 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -100,6 +105,16 @@
         </DelphiCompile>
         <DCCReference Include="SimpleSample.Main.pas">
             <Form>FMain</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\..\sources\SQLCollection.Base.pas"/>
+        <DCCReference Include="..\..\sources\SQLCollection.Core.pas"/>
+        <DCCReference Include="..\..\sources\SQLCollection.Design.Editor.pas">
+            <Form>SQLCollectionEditor</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\..\sources\SQLCollection.Design.SQLEditor.pas">
+            <Form>SQLEditor</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
@@ -122,6 +137,12 @@
                 <Source>
                     <Source Name="MainSource">SimpleSample.dpr</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDS)\Bpl\LockBox3FMXDD260.bpl">TurboPack LockBox 3 FMX designtime package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k260.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp260.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDS)\Bpl\dmvcframeworkDT103.bpl">File i:\embarcadero\studio\20.0\Bpl\dmvcframeworkDT103.bpl not found</Excluded_Packages>
+                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="Win32\Debug\SimpleSample.exe" Configuration="Debug" Class="ProjectOutput">

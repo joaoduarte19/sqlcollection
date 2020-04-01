@@ -13,6 +13,15 @@ object FMain: TFMain
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
+  object btn1: TButton
+    Left = 256
+    Top = 56
+    Width = 75
+    Height = 25
+    Caption = 'btn1'
+    TabOrder = 0
+    OnClick = btn1Click
+  end
   object SQLCollection1: TSQLCollection
     Items = <
       item

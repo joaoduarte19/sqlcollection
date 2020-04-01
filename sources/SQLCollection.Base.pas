@@ -142,7 +142,7 @@ begin
         LField := LObjType.GetField('FItems');
         if Assigned(LField) then
         begin
-          FCollectionItems := LField.GetValue(Self).AsType<TList<TCollectionItem>>;
+          FCollectionItems := TList<TCollectionItem>(LField.GetValue(Self).AsObject);
           Break;
         end;
       end;
