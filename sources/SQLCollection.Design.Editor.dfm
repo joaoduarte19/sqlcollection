@@ -226,6 +226,7 @@ object SQLCollectionEditor: TSQLCollectionEditor
       Height = 401
       Align = alLeft
       ItemHeight = 15
+      PopupMenu = pmSQLCategories
       Sorted = True
       TabOrder = 0
       OnClick = lstCategoriesClick
@@ -240,38 +241,146 @@ object SQLCollectionEditor: TSQLCollectionEditor
       Align = alClient
       DragMode = dmAutomatic
       ItemHeight = 15
+      MultiSelect = True
       PopupMenu = pmSQLItems
       TabOrder = 1
       OnDblClick = lstItemsDblClick
     end
   end
   object actlst1: TActionList
-    Left = 376
+    Left = 352
     Top = 136
-    object actAddCategory: TAction
-      Caption = 'actAddCategory'
-      OnExecute = actAddCategoryExecute
+    object actSQLCategoryAdd: TAction
+      Category = 'SQLCategory'
+      Caption = 'Add New'
+      ShortCut = 16429
+      OnExecute = actSQLCategoryAddExecute
     end
-    object actRemoveCategory: TAction
-      Caption = 'actRemoveCategory'
+    object actSQLCategoryRemove: TAction
+      Category = 'SQLCategory'
+      Caption = 'Remove'
+      ShortCut = 16430
+      OnExecute = actSQLCategoryRemoveExecute
     end
-    object actAddSQLItem: TAction
-      Caption = '&Add SQLItem'
+    object actSQLItemAdd: TAction
+      Category = 'SQLItem'
+      Caption = '&Add New'
       ShortCut = 45
-      OnExecute = actAddSQLItemExecute
+      OnExecute = actSQLItemAddExecute
     end
-    object actRemoveSQLItem: TAction
-      Caption = 'actRemoveSQLItem'
+    object actSQLItemRemove: TAction
+      Category = 'SQLItem'
+      Caption = 'Remove'
+      ShortCut = 46
+      OnExecute = actSQLItemRemoveExecute
     end
     object actSearchItems: TAction
+      Category = 'General'
       OnExecute = actSearchItemsExecute
+    end
+    object actSQLItemCopyStructure: TAction
+      Category = 'SQLItem'
+      Caption = 'Copy Structure'
+      ShortCut = 24643
+      OnExecute = actSQLItemCopyStructureExecute
+    end
+    object actSQLItemCopyLink: TAction
+      Category = 'SQLItem'
+      Caption = 'Copy Link'
+      ShortCut = 16451
+      OnExecute = actSQLItemCopyLinkExecute
+    end
+    object actSQLItemPaste: TAction
+      Category = 'SQLItem'
+      Caption = 'Paste'
+      ShortCut = 16470
+      OnExecute = actSQLItemPasteExecute
+    end
+    object actSQLItemCut: TAction
+      Category = 'SQLItem'
+      Caption = 'Cut'
+      ShortCut = 16472
+      OnExecute = actSQLItemCutExecute
+    end
+    object actSQLItemSelectAll: TAction
+      Category = 'SQLItem'
+      Caption = 'Select All'
+      ShortCut = 16449
+      OnExecute = actSQLItemSelectAllExecute
+    end
+    object actSQLItemRename: TAction
+      Category = 'SQLItem'
+      Caption = 'Rename'
+      ShortCut = 113
+      OnExecute = actSQLItemRenameExecute
+    end
+    object actSQLItemChangeCategory: TAction
+      Category = 'SQLItem'
+      Caption = 'Change Category'
+      ShortCut = 32881
+      OnExecute = actSQLItemChangeCategoryExecute
+    end
+    object actSQLItemEdit: TAction
+      Category = 'SQLItem'
+      Caption = 'Edit SQL'
+      ShortCut = 13
+      OnExecute = actSQLItemEditExecute
     end
   end
   object pmSQLItems: TPopupMenu
     Left = 376
     Top = 170
+    object mniSQLItemEdit: TMenuItem
+      Action = actSQLItemEdit
+    end
+    object mniN4: TMenuItem
+      Caption = '-'
+    end
     object mniAddSQLItem: TMenuItem
-      Action = actAddSQLItem
+      Action = actSQLItemAdd
+    end
+    object mniSQLItemRemove: TMenuItem
+      Action = actSQLItemRemove
+    end
+    object mniN1: TMenuItem
+      Caption = '-'
+    end
+    object mniSQLItemCopyLink: TMenuItem
+      Action = actSQLItemCopyLink
+    end
+    object mniSQLItemCopyStructure: TMenuItem
+      Action = actSQLItemCopyStructure
+    end
+    object mniSQLItemPaste: TMenuItem
+      Action = actSQLItemPaste
+    end
+    object mniSQLItemCut: TMenuItem
+      Action = actSQLItemCut
+    end
+    object mniN2: TMenuItem
+      Caption = '-'
+    end
+    object mniSQLItemSelectAll: TMenuItem
+      Action = actSQLItemSelectAll
+    end
+    object mniN3: TMenuItem
+      Caption = '-'
+    end
+    object mniSQLItemRename: TMenuItem
+      Action = actSQLItemRename
+    end
+    object mniSQLItemChangeCategory: TMenuItem
+      Action = actSQLItemChangeCategory
+    end
+  end
+  object pmSQLCategories: TPopupMenu
+    Left = 344
+    Top = 170
+    object mniAddCategory: TMenuItem
+      Action = actSQLCategoryAdd
+    end
+    object mniRemoveCategory: TMenuItem
+      Action = actSQLCategoryRemove
     end
   end
 end

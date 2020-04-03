@@ -6,7 +6,8 @@ uses
   SQLCollection.Base in '..\..\sources\SQLCollection.Base.pas',
   SQLCollection.Core in '..\..\sources\SQLCollection.Core.pas',
   SQLCollection.Design.Editor in '..\..\sources\SQLCollection.Design.Editor.pas' {SQLCollectionEditor},
-  SQLCollection.Design.SQLEditor in '..\..\sources\SQLCollection.Design.SQLEditor.pas' {SQLEditor};
+  SQLCollection.Design.SQLEditor in '..\..\sources\SQLCollection.Design.SQLEditor.pas' {SQLEditor},
+  SQLCollection.Design.JsonDataObjects in '..\..\sources\SQLCollection.Design.JsonDataObjects.pas';
 
 {$R *.res}
 

@@ -153,6 +153,7 @@ type
     procedure actReplaceExecute(Sender: TObject);
     procedure actCopyToNavicatExecute(Sender: TObject);
     procedure actPasteFromNavicatExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     FTimerAutoClose: TTimer;
     FOpeningClosing: Boolean;
@@ -828,6 +829,12 @@ end;
 procedure TSQLEditor.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(FTimerAutoClose);
+end;
+
+procedure TSQLEditor.FormShow(Sender: TObject);
+begin
+  if edtSQLEdit.CanFocus then
+    edtSQLEdit.SetFocus;
 end;
 
 function TSQLEditor.GetMacroRecording: Boolean;

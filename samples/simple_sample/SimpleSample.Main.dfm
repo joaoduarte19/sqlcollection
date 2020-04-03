@@ -77,7 +77,13 @@ object FMain: TFMain
       end
       item
         Name = 'Category0'
-        SQLItems = <>
+        SQLItems = <
+          item
+            Name = 'SQL1'
+          end
+          item
+            Name = 'SQL2'
+          end>
       end
       item
         Name = 'Category6'

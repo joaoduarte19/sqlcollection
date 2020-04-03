@@ -1,4 +1,4 @@
-package SQLCollection.Design;
+package SQLCollectionDesign;
 
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
@@ -38,6 +38,7 @@ requires
 contains
   SQLCollection.Design.Register in '..\sources\SQLCollection.Design.Register.pas',
   SQLCollection.Design.Editor in '..\sources\SQLCollection.Design.Editor.pas' {SQLCollectionEditor},
-  SQLCollection.Design.SQLEditor in '..\sources\SQLCollection.Design.SQLEditor.pas' {SQLEditor};
+  SQLCollection.Design.SQLEditor in '..\sources\SQLCollection.Design.SQLEditor.pas' {SQLEditor},
+  SQLCollection.Design.JsonDataObjects in '..\sources\SQLCollection.Design.JsonDataObjects.pas';
 
 end.
