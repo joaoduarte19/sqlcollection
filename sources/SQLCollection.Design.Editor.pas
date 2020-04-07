@@ -137,9 +137,9 @@ type
     procedure cbxSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure cbxSearchEnter(Sender: TObject);
     procedure cbxSearchExit(Sender: TObject);
+    procedure pmSQLItemsPopup(Sender: TObject);
   private
     FSQLCollection: TSQLCollection;
-    FSQLEditor: TSQLEditor;
     function GetConfigFileName: string;
     procedure FillCategories;
     procedure SQLItemRemove;
@@ -327,23 +327,40 @@ end;
 
 procedure TSQLCollectionEditor.actSQLItemEditExecute(Sender: TObject);
 var
-  I: Integer;
+  LSQLEditor: TSQLEditor;
+  LSQLItem: TSQLItem;
 begin
   if lstItems.ItemIndex < 0 then
     Exit;
 
+  LSQLItem := lstItems.Items.Objects[lstItems.ItemIndex] as TSQLItem;
+
   { SQLCollection.Design.SQLEditor }
-  if not Assigned(FSQLEditor) then
-    FSQLEditor := TSQLEditor.Create(Self);
+  for LSQLEditor in GSQLEditorList do
+  begin
+    if LSQLEditor.SQLItem = LSQLItem then
+    begin
+      LSQLEditor.Show;
+      if LSQLEditor.WindowState <> wsNormal then
+        LSQLEditor.WindowState := wsNormal;
+      LSQLEditor.SetFocus;
+      Exit;
+    end;
+  end;
 
-  for I := 0 to Pred(lstItems.Items.Count) do
-    if lstItems.Selected[I] then
-      FSQLEditor.OpenSQLEditor(TSQLItem(lstItems.Items.Objects[I]));
+  LSQLEditor := TSQLEditor.Create(Self);
+  try
+    LSQLEditor.SQLItem := LSQLItem;
+    LSQLEditor.Designer := Self.Designer;
+    LSQLEditor.Caption := Format('%s - %s', [LSQLItem.Name, LSQLItem.Category]);
+    LSQLEditor.edtSQLEdit.Lines.Assign(LSQLItem.SQL);
 
-  if FSQLEditor.WindowState <> wsNormal then
-    FSQLEditor.WindowState := wsNormal;
+    LSQLEditor.Show;
+  except
+    if Assigned(LSQLEditor) then
+      LSQLEditor.Release;
+  end;
 
-  FSQLEditor.Show;
 end;
 
 procedure TSQLCollectionEditor.actSQLItemPasteExecute(Sender: TObject);
@@ -786,6 +803,12 @@ end;
 procedure TSQLCollectionEditor.lstItemsDblClick(Sender: TObject);
 begin
   actSQLItemEdit.Execute;
+end;
+
+procedure TSQLCollectionEditor.pmSQLItemsPopup(Sender: TObject);
+begin
+  if lstItems.CanFocus then
+    lstItems.SetFocus;
 end;
 
 procedure TSQLCollectionEditor.SelectItem(const ASQLItem: TSQLItem; const AFocusCtrl: Boolean);
