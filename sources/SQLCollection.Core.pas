@@ -55,9 +55,11 @@ type
 
   TSQLCategories = class(TSortableCollection)
   private
+    FSorted: Boolean;
     function GetSQLCategory(Index: Integer): TSQLCategory;
     function GetSQLCategoryByName(ASQLCategoryName: string): TSQLCategory;
   public
+    constructor Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
     function Add(const ASQLCategoryName: string): TSQLCategory;
     property SQLCategory[Index: Integer]: TSQLCategory read GetSQLCategory;
     property SQLCategoryByName[ASQLCategoryName: string]: TSQLCategory read GetSQLCategoryByName; default;
@@ -80,9 +82,11 @@ type
 
   TSQLItems = class(TSortableCollection)
   private
+    FSorted: Boolean;
     function GetSQLItem(Index: Integer): TSQLItem;
     function GetSQLItemByName(ASQLItemName: string): TSQLItem;
   public
+    constructor Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
     function Add(const ASQLItemName: string): TSQLItem; overload;
     property SQLItem[Index: Integer]: TSQLItem read GetSQLItem;
     property SQLItemByName[ASQLItemName: string]: TSQLItem read GetSQLItemByName; default;
@@ -183,6 +187,13 @@ begin
   Self.Sort;
 end;
 
+constructor TSQLCategories.Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
+begin
+  inherited Create(AOwner, ItemClass);
+
+  FSorted := False;
+end;
+
 function TSQLCategories.GetSQLCategory(Index: Integer): TSQLCategory;
 begin
   Result := Items[Index] as TSQLCategory;
@@ -192,6 +203,12 @@ function TSQLCategories.GetSQLCategoryByName(ASQLCategoryName: string): TSQLCate
 var
   LIndex: Integer;
 begin
+  if not FSorted then
+  begin
+    Self.Sort;
+    FSorted := True;
+  end;
+
   Result := nil;
   if BinarySearch(ASQLCategoryName, LIndex) then
   begin
@@ -239,6 +256,13 @@ begin
   Self.Sort;
 end;
 
+constructor TSQLItems.Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
+begin
+  inherited Create(AOwner, ItemClass);
+
+  FSorted := False;
+end;
+
 function TSQLItems.GetSQLItem(Index: Integer): TSQLItem;
 begin
   Result := Items[Index] as TSQLItem;
@@ -248,6 +272,12 @@ function TSQLItems.GetSQLItemByName(ASQLItemName: string): TSQLItem;
 var
   LIndex: Integer;
 begin
+  if not FSorted then
+  begin
+    Self.Sort;
+    FSorted := True;
+  end;
+
   Result := nil;
   if BinarySearch(ASQLItemName, LIndex) then
   begin
