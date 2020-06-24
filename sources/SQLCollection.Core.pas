@@ -37,7 +37,11 @@ type
   TSQLItems = class;
   TSQLItem = class;
 
+  {$IF CompilerVersion < 32}
+  [ComponentPlatformsAttribute(0)]
+  {$ELSE}
   [ComponentPlatformsAttribute(pidAllPlatforms)]
+  {$ENDIF}
   TSQLCollection = class(TComponent)
   private
     FItems: TSQLCategories;
