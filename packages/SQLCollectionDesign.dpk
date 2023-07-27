@@ -33,7 +33,7 @@ requires
   rtl,
   designide,
   SQLCollection,
-  SynEdit_R;
+  SynEdit_D;
 
 contains
   SQLCollection.Design.Register in '..\sources\SQLCollection.Design.Register.pas',
